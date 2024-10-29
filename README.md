@@ -1,5 +1,7 @@
 # ArtS : Développement d'une Application Culturelle Innovante
 
+![Project Screenshot](Portfolio.png)
+
 ArtS est une plateforme culturelle regroupant des galeries d'art, tableaux, expositions, réservations et avis, catalogues, ateliers culturels, événements culturels et un gestionnaire d'images. Son objectif est de rendre l’art et la culture accessibles grâce à une expérience utilisateur enrichie, soutenue par des fonctionnalités avancées d'intelligence artificielle.
 
 ## Technologies Utilisées
