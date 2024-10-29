@@ -1,0 +1,69 @@
+{% extends "index1.html" %}
+
+{% block content %}
+<style>
+    .text-black {
+        color: black; /* Définit la couleur du texte sur noir */
+    }
+</style>
+
+<section id="catalogues" class="catalogues">
+    <section id="hero" class="hero d-flex flex-column justify-content-center align-items-center" data-aos="fade">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-6 text-center">
+                    <h2>Ajouter un Atelier à l'Événement : <span>{{ event.event_name }}</span></h2>
+                </div>
+            </div>
+        </div>
+    </section><!-- End Hero Section -->
+    
+    <section id="contact" class="contact">
+        <div class="container">
+            <div class="row gy-4 justify-content-center">
+                <div class="col-lg-8">
+                    <div class="card border-0 shadow-sm p-4">
+                        <form method="POST" enctype="multipart/form-data">
+                            {% csrf_token %}
+
+                            <div class="form-group">
+                                <label for="name" class="text-black">Nom de l'Atelier :</label>
+                                <input type="text" id="name" name="name" class="form-control" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="description" class="text-black">Description Complète :</label>
+                                <textarea id="description" name="description" class="form-control" rows="4" required></textarea>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="date" class="text-black">Date de l'Atelier :</label>
+                                <input type="date" id="date" name="date" class="form-control" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="start_time" class="text-black">Heure de Début :</label>
+                                <input type="time" id="start_time" name="start_time" class="form-control" required>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label for="duration" class="text-black">Durée de l'Atelier :</label>
+                                <input type="text" id="duration" name="duration" class="form-control" placeholder="Ex: 1:30:00" required>
+                                <small class="form-text text-muted">Format : heures:minutes:secondes</small>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="participant_limit" class="text-black">Limite de Participants :</label>
+                                <input type="number" id="participant_limit" name="participant_limit" class="form-control" min="1" required>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary">Ajouter l'Atelier</button>
+                            <a href="{% url 'view_workshops' event.id %}" class="btn btn-secondary">Annuler</a>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

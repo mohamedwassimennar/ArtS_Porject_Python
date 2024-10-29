@@ -1,0 +1,54 @@
+
+{% extends "index1.html" %}
+{% block content %}
+<style>
+  .text-black {
+      color: black; /* Définit la couleur du texte sur noir */
+  }
+</style>
+<div class="container my-5">
+    <h1 class="mb-4">{{ event.event_name }} - Ateliers</h1>
+    <p><strong>Date de début :</strong> {{ event.start_date }}</p>
+    <p><strong>Date de fin :</strong> {{ event.end_date }}</p>
+    <p><strong>Lieu :</strong> {{ event.location }}</p>
+
+    <h2 class="mt-4">Liste des ateliers</h2>
+    <a href="{% url 'add_workshop' event.id %}" class="btn btn-primary mb-3">Ajouter Workshop</a>
+
+    <div class="row">
+      {% if workshops %}
+          {% for workshop in workshops %}
+              <div class="col-md-4">
+                  <div class="card mb-4">
+                      <div class="card-body text-black">
+                          <h5 class="card-title">{{ workshop.name }}</h5>
+                          <p class="card-text">
+                              <strong>Description :</strong> {{ workshop.description }} <br>
+                              <strong>Date :</strong> {{ workshop.date }}<br>
+                              <strong>Heure de début :</strong> {{ workshop.start_time }} <br>
+                              <strong>Heure de fin :</strong> {{ workshop.start_time|add:workshop.duration|time:"H:i" }} <br>
+                              <strong>Durée :</strong> {{ workshop.duration }} <br>
+                              <strong>Limite de participants :</strong> {{ workshop.participant_limit }}
+                          </p>
+                          <a href="{% url 'view_workshop' event.id workshop.id %}" class="btn btn-info">Voir Détails</a>
+                          <a href="{% url 'edit_workshop' event.id workshop.id %}" class="btn btn-warning">Modifier</a> <!-- Bouton Modifier -->
+                          <form method="POST" action="{% url 'delete_workshop' event.id workshop.id %}" style="display:inline;">
+                              {% csrf_token %}
+                              <button type="submit" class="btn btn-danger" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet atelier ?');">Supprimer</button> <!-- Bouton Supprimer -->
+                          </form>
+                      </div>
+                  </div>
+              </div>
+          {% endfor %}
+      {% else %}
+          <div class="alert alert-info mt-3" role="alert">
+              Aucun atelier disponible pour cet événement.
+          </div>
+      {% endif %}
+  </div>
+  
+
+
+    <a href="{% url 'cultural_event_list' %}" class="btn btn-secondary mt-4">Retour à la liste des événements</a>
+</div>
+{% endblock %}

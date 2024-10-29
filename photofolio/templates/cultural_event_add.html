@@ -1,0 +1,251 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>Artiste</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <!-- Icônes Favoris -->
+  <link href="{% static 'assets/img/favicon.png' %}" rel="icon">
+  <link href="{% static 'assets/img/apple-touch-icon.png' %}" rel="apple-touch-icon">
+
+  <!-- Polices Google -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Fichiers CSS du vendeur -->
+  <link href="{% static 'assets/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/swiper/swiper-bundle.min.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/glightbox/css/glightbox.min.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/aos/aos.css' %}" rel="stylesheet">
+
+  <!-- Fichier CSS principal -->
+  <link href="{% static 'assets/css/main.css' %}" rel="stylesheet">
+
+  <style>
+    /* Style pour la carte du formulaire */
+    .card {
+      background-color: #ffffff;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      padding: 15px; 
+      max-width: 500px; 
+      margin: auto;
+      font-size: 17px;
+    }
+
+    /* Alignement et style pour les labels et champs */
+    .contact .form-label {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #333;
+    }
+
+    .avis-form input, .avis-form select, .avis-form textarea {
+      width: 100%;
+      padding: 6px;
+      border: 1px solid #ced4da;
+      border-radius: 4px;
+      font-size: 0.9rem;
+    }
+
+    /* Style pour les boutons */
+    .avis-form .btn-primary {
+      background-color: #007bff;
+      border-color: #007bff;
+      font-size: 0.8rem;
+      padding: 6px 12px;
+    }
+
+    .avis-form .btn-primary:hover {
+      background-color: #0056b3;
+    }
+
+    .avis-form .btn-outline-secondary {
+      border-color: #6c757d;
+      color: #333;
+      font-size: 0.8rem;
+      padding: 6px 12px;
+    }
+
+    .avis-form .btn-outline-secondary:hover {
+      background-color: #6c757d;
+      color: #333;
+    }
+  </style>    
+
+</head>
+
+<body>
+
+  <!-- ======= En-tête ======= -->
+  <header id="header" class="header d-flex align-items-center fixed-top">
+    <div class="container-fluid d-flex align-items-center justify-content-between">
+
+      <a href="index.html" class="logo d-flex align-items-center me-auto me-lg-0">
+        <i class="bi bi-camera"></i>
+        <h1>ArtS</h1>
+      </a>
+      <nav id="navbar" class="navbar">
+        <ul>
+          <li><a href="{% url 'home' %}" class="active">Accueil</a></li>
+          <li class="dropdown"><a href="#"><span>Galeries</span> <i class="bi bi-chevron-down dropdown-indicator"></i></a>
+            <ul>
+              <li><a href="{% url 'gallery_list' %}">Galeries d'art</a></li> 
+              <li><a href="{% url 'visit_list' %}">Visites prévues</a></li> 
+              <li><a href="{% url 'ia2' %}">Analyseur d'image</a></li> 
+            </ul>
+          </li>
+          <li><a href="{% url 'expositions' %}">Expositions</a></li>
+          <li><a href="{% url 'reservations' %}">Réservations</a></li>
+          <li><a href="{% url 'liste_catalogues' %}">Catalogues</a></li>
+          <li><a href="{% url 'liste_avis' %}">Avis</a></li>
+          <li><a href="{% url 'cultural_event_list' %}">Événements Culturels</a></li>
+          <li><a href="{% url 'contact' %}">Contact</a></li>
+          <li><a href="{% url 'upload' %}">Upload art</a></li>
+
+          {% if user.is_authenticated %}
+          <li><a href="{% url 'logout' %}">Logout</a></li>
+          {% else %}
+          <li><a href="{% url 'login' %}">Logout</a></li>
+          {% endif %}
+        </ul>
+      </nav>
+      <div class="header-social-links">
+        <a href="#" class="twitter"><i class="bi bi-twitter"></i></a>
+        <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
+        <a href="#" class="instagram"><i class="bi bi-instagram"></i></a>
+        <a href="#" class="linkedin"><i class="bi bi-linkedin"></i></a>
+      </div>
+      <i class="mobile-nav-toggle mobile-nav-show bi bi-list"></i>
+      <i class="mobile-nav-toggle mobile-nav-hide d-none bi bi-x"></i>
+
+    </div>
+  </header><!-- Fin En-tête -->
+
+  <main id="main" data-aos="fade" data-aos-delay="1500">
+    <!-- ======= En-tête de Page ======= -->
+    <div class="page-header d-flex align-items-center">
+        <div class="container position-relative">
+            <div class="row d-flex justify-content-center">
+                <div class="col-lg-6 text-center">
+                    <h2>Créer un Événement Culturel</h2>
+                </div>
+            </div>
+        </div>
+    </div><!-- Fin En-tête de Page -->
+
+    <!-- ======= Section Contact ======= -->
+    <section id="contact" class="contact">
+        <div class="container">
+            <div class="row gy-4 justify-content-center">
+                <div class="col-lg-8">
+                    <div class="card border-0 shadow-sm p-4">
+                        <form method="post" class="avis-form">
+                            {% csrf_token %}
+                            
+                            <div class="row align-items-center mb-3">
+                                <div class="col-4 text-end">
+                                    <label for="id_event_name" class="form-label">Nom de l'Événement</label>
+                                </div>
+                                <div class="col-8">
+                                    {{ form.event_name }}
+                                    {% if form.event_name.errors %}
+                                        <div class="text-danger">{{ form.event_name.errors }}</div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            
+                            <div class="row align-items-center mb-3">
+                                <div class="col-4 text-end">
+                                    <label for="id_description" class="form-label">Description</label>
+                                </div>
+                                <div class="col-8">
+                                    {{ form.description }}
+                                    {% if form.description.errors %}
+                                        <div class="text-danger">{{ form.description.errors }}</div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            
+                            <div class="row align-items-center mb-3">
+                                <div class="col-4 text-end">
+                                    <label for="id_start_date" class="form-label">Date de Début</label>
+                                </div>
+                                <div class="col-8">
+                                    {{ form.start_date }}
+                                    {% if form.start_date.errors %}
+                                        <div class="text-danger">{{ form.start_date.errors }}</div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            
+                            <div class="row align-items-center mb-3">
+                                <div class="col-4 text-end">
+                                    <label for="id_end_date" class="form-label">Date de Fin</label>
+                                </div>
+                                <div class="col-8">
+                                    {{ form.end_date }}
+                                    {% if form.end_date.errors %}
+                                        <div class="text-danger">{{ form.end_date.errors }}</div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            
+                            <div class="row align-items-center mb-3">
+                                <div class="col-4 text-end">
+                                    <label for="id_location" class="form-label">Lieu</label>
+                                </div>
+                                <div class="col-8">
+                                    {{ form.location }}
+                                    {% if form.location.errors %}
+                                        <div class="text-danger">{{ form.location.errors }}</div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            
+                            <div class="row align-items-center mb-3">
+                                <div class="col-4 text-end">
+                                    <label for="id_category" class="form-label">Catégorie</label>
+                                </div>
+                                <div class="col-8">
+                                    {{ form.category }}
+                                    {% if form.category.errors %}
+                                        <div class="text-danger">{{ form.category.errors }}</div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-primary">Créer l'Événement</button>
+                                <a href="{% url 'home' %}" class="btn btn-outline-secondary">Retour</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section><!-- Fin Section Contact -->
+  </main>
+
+ 
+
+  <!-- Fichiers JavaScript Vendor -->
+  <script src="{% static 'assets/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+  <script src="{% static 'assets/vendor/swiper/swiper-bundle.min.js' %}"></script>
+  <script src="{% static 'assets/vendor/glightbox/js/glightbox.min.js' %}"></script>
+  <script src="{% static 'assets/vendor/aos/aos.js' %}"></script>
+
+  <!-- Fichier JavaScript principal -->
+  <script src="{% static 'assets/js/main.js' %}"></script>
+
+</body>
+
+</html>

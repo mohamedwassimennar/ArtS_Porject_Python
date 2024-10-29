@@ -1,0 +1,24 @@
+{% extends "index1.html" %}
+
+{% block content %}
+<div class="container my-5">
+    <h1>{{ event.event_name }} - Programme de l'Atelier</h1>
+    <h2>{{ workshop.name }}</h2>
+    <p><strong>Description :</strong> {{ workshop.description }}</p>
+    <p><strong>Programme :</strong></p>
+
+    <form method="POST">
+        {% csrf_token %}
+        <textarea name="modified_program" rows="10" class="form-control">{{ workshop.program }}</textarea>
+        <button type="submit" class="btn btn-primary mt-4">Ajouter Programme</button>
+    </form>
+
+    <form method="POST" action="{% url 'generate_workshop_program' event.id %}">
+        {% csrf_token %}
+        <input type="hidden" name="workshop_id" value="{{ workshop.id }}">
+        <button type="submit" class="btn btn-info">Générer le Programme</button>
+    </form>
+
+    <a href="{% url 'view_workshops' event.id %}" class="btn btn-secondary mt-4">Retour aux Ateliers</a>
+</div>
+{% endblock %}

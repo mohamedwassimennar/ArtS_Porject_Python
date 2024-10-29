@@ -1,0 +1,118 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+    <title>Planned Visits</title>
+    <meta content="" name="description">
+    <meta content="" name="keywords">
+
+    <link href="{% static 'assets/img/favicon.png' %}" rel="icon">
+    <link href="{% static 'assets/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'assets/vendor/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet">
+
+    <style>
+        .visit-card {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 15px;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <header id="header" class="header d-flex align-items-center fixed-top">
+        <a href="{% url 'home' %}" class="logo d-flex align-items-center me-auto me-lg-0">
+            <h1>ArtS</h1>
+        </a>
+    </header>
+
+    <main id="main" style="margin-top: 100px;">
+        <section id="planned-visits" class="planned-visits">
+            <div class="container-fluid">
+                <h1 class="text-center mb-4">Planned Visits</h1>
+                
+                <div class="row">
+                    {% for visit in planned_visits %}
+                    <div class="col-md-3 visit-card">
+                        <h2>{{ visit.nom }}</h2>
+                        <p><strong>Date de visite:</strong> {{ visit.date_visite }}</p>
+                        <p><strong>Durée estimée:</strong> {{ visit.duree_estimee }} heures</p>
+                        <p><strong>Statut:</strong> {{ visit.statut_visite }}</p>
+
+                        <h5><strong>Galeries à visiter:</strong></h5>
+                        <ul>
+                            {% for gallery in visit.galleries_a_visiter.all %}
+                            <li>{{ gallery.nom }}</li>
+                            {% empty %}
+                            <li>Aucune galerie sélectionnée.</li>
+                            {% endfor %}
+                        </ul>
+
+                        <!-- Bouton Modifier -->
+                        <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#modifyModal{{ visit.id }}">
+                            Modifier
+                        </button>
+
+                        <!-- Bouton Supprimer -->
+                        <form method="POST" action="{% url 'delete_visit' visit.id %}" style="display:inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-danger" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette visite ?');">Supprimer</button>
+                        </form>
+                    </div>
+
+                    <!-- Modal de modification -->
+                    <div class="modal fade" id="modifyModal{{ visit.id }}" tabindex="-1" aria-labelledby="modifyModalLabel{{ visit.id }}" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="modifyModalLabel{{ visit.id }}">Modifier la visite</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <form method="POST" action="{% url 'modify_visit' visit.id %}">
+                                        {% csrf_token %}
+                                        <div class="mb-3">
+                                            <label for="nom{{ visit.id }}">Nom de la visite :</label>
+                                            <input type="text" class="form-control" id="nom{{ visit.id }}" name="nom" value="{{ visit.nom }}" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="date_visite{{ visit.id }}">Date de visite :</label>
+                                            <input type="date" class="form-control" id="date_visite{{ visit.id }}" name="date_visite" value="{{ visit.date_visite }}" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="duree_estimee{{ visit.id }}">Durée estimée (heures) :</label>
+                                            <input type="number" step="0.1" class="form-control" id="duree_estimee{{ visit.id }}" name="duree_estimee" value="{{ visit.duree_estimee }}" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="statut_visite{{ visit.id }}">Statut de la visite :</label>
+                                            <select class="form-control" id="statut_visite{{ visit.id }}" name="statut_visite">
+                                                <option value="planned" {% if visit.statut_visite == "planned" %}selected{% endif %}>Planned</option>
+                                                <option value="completed" {% if visit.statut_visite == "completed" %}selected{% endif %}>Completed</option>
+                                                <option value="canceled" {% if visit.statut_visite == "canceled" %}selected{% endif %}>Canceled</option>
+                                            </select>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary">Enregistrer les modifications</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% empty %}
+                    <p>Aucune visite planifiée trouvée.</p>
+                    {% endfor %}
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Bootstrap JS -->
+    <script src="{% static 'assets/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+</body>
+
+</html>

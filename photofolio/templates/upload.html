@@ -1,0 +1,285 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+    <title>Artist</title>
+    <meta content="" name="description">
+    <meta content="" name="keywords">
+
+    <!-- Favicons -->
+    <link href="{% static 'assets/img/favicon.png' %}" rel="icon">
+    <link href="{% static 'assets/img/apple-touch-icon.png' %}" rel="apple-touch-icon">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,600;1,700&family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Cardo:ital,wght@0,400;0,700;1,400&display=swap"
+        rel="stylesheet">
+
+    <!-- Vendor CSS Files -->
+    <link href="{% static 'assets/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'assets/vendor/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet">
+    <link href="{% static 'assets/vendor/swiper/swiper-bundle.min.css' %}" rel="stylesheet">
+    <link href="{% static 'assets/vendor/glightbox/css/glightbox.min.css' %}" rel="stylesheet">
+    <link href="{% static 'assets/vendor/aos/aos.css' %}" rel="stylesheet">
+
+    <!-- Template Main CSS File -->
+    <link href="{% static 'assets/css/main.css' %}" rel="stylesheet">
+
+</head>
+
+<body>
+
+    <!-- ======= Header ======= -->
+    <header id="header" class="header d-flex align-items-center fixed-top">
+        <div class="container-fluid d-flex align-items-center justify-content-between">
+
+            <a href="ia" class="logo d-flex align-items-center me-auto me-lg-0">
+                <i class="bi bi-camera"></i>
+                <h1>ArtS</h1>
+            </a>
+
+            <nav id="navbar" class="navbar">
+                <ul>
+                    <li><a href="{% url 'home' %}" class="active">Home</a></li>
+                    <li class="dropdown"><a href="#"><span>Gallery</span> <i
+                                class="bi bi-chevron-down dropdown-indicator"></i></a>
+                        <ul>
+                            <li><a href="{% url 'gallery' 'renaissance' %}">Renaissance</a></li>
+                            <li><a href="{% url 'gallery' 'expressionism' %}">Expressionism</a></li>
+                            <li><a href="{% url 'gallery' 'baroque' %}">Baroque</a></li>
+                            <li><a href="{% url 'gallery' 'neoclassicism' %}">Neoclassicism</a></li>
+                            <li><a href="{% url 'gallery' 'ukiyo-e' %}">Ukiyo-e</a></li>
+                            <li><a href="{% url 'gallery' 'post-impressionist' %}">Post-Impressionist</a></li>
+                            <li><a href="{% url 'gallery' 'orientalism' %}">Orientalism</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="{% url 'liste_catalogues' %}">Catalogues</a></li>
+                    <li><a href="{% url 'liste_avis' %}">Avis</a></li>
+                    <li class="dropdown"><a href="#"><span>Galleries</span> <i
+                                class="bi bi-chevron-down dropdown-indicator"></i></a>
+                        <ul>
+                            <li><a href="{% url 'gallery_list' %}">Art Galleries</a></li>
+                            <li><a href="{% url 'visit_list' %}">Planned Visits</a></li>
+                            <li><a href="{% url 'ia2' %}">Image Analyzer</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="{% url 'expositions' %}">Expositions</a></li>
+                    <li><a href="{% url 'reservations' %}">Reservations</a></li>
+                    <li><a href="{% url 'contact' %}">Contact</a></li>
+                    <li><a href="{% url 'upload' %}">Upload art</a></li>
+                    {% if user.is_authenticated %}
+                    <li><a href="{% url 'logout' %}">Logout</a></li>
+                    {% else %}
+                    <li><a href="{% url 'login' %}">Login</a></li>
+                    {% endif %}
+                </ul>
+            </nav><!-- .navbar -->
+
+            <div class="header-social-links">
+                <a href="#" class="twitter"><i class="bi bi-twitter"></i></a>
+                <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
+                <a href="#" class="instagram"><i class="bi bi-instagram"></i></a>
+                <a href="#" class="linkedin"><i class="bi bi-linkedin"></i></a>
+            </div>
+            <i class="mobile-nav-toggle mobile-nav-show bi bi-list"></i>
+            <i class="mobile-nav-toggle mobile-nav-hide d-none bi bi-x"></i>
+
+        </div>
+    </header><!-- End Header -->
+
+
+
+    <!-- ======= Form Section ======= -->
+    <section id="form-section" class="upload-section">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="upload-container">
+                        <div class="section-header">
+                            <h3>Share Your Artwork</h3>
+                            <p>Upload your own artwork to get recommendations</p>
+                        </div>
+
+                        <div class="upload-form">
+                            <form action="" method="post" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                <div class="form-wrapper">
+                                    {{form.as_p}}
+                                </div>
+                                <div class="text-center">
+                                    <button type="submit" class="btn btn-submit">
+                                        <i class="bi bi-cloud-upload me-2"></i>Submit Artwork
+                                    </button>
+                                </div>
+                            </form>
+
+                            {% if messages %}
+                            <div class="messages-container">
+                                {% for message in messages %}
+                                <div class="alert alert-info" role="alert">
+                                    {{message}}
+                                </div>
+                                {% endfor %}
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <h2 class="py-5 text-center">Liked Paintings</h2>
+        <div class="row justify-content-center">
+            {% for painting in liked_paintings %}
+            <div class="col-lg-3 col-md-4 col-sm-6">
+                <div class="painting-card">
+                    <img src="{{ painting.art_image.url }}" alt="{{ painting.name }}" class="img-fluid">
+                    <h5 class="text-center"><strong>{{ painting.name }}</strong></h5>
+                    <p class="text-center">Year: {{ painting.year }}</p>
+                </div>
+            </div>
+            {% empty %}
+            <p>No liked paintings found.</p>
+            {% endfor %}
+        </div>
+
+    </section><!-- End Form Section -->
+
+    <main id="main" data-aos="fade" data-aos-delay="1500">
+
+        <a href="#" class="scroll-top d-flex align-items-center justify-content-center">
+            <i class="bi bi-arrow-up-short"></i>
+        </a>
+
+        <!-- Vendor JS Files -->
+        <script src="{% static 'assets/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+        <script src="{% static 'assets/vendor/glightbox/js/glightbox.min.js' %}"></script>
+        <script src="{% static 'assets/vendor/swiper/swiper-bundle.min.js' %}"></script>
+        <script src="{% static 'assets/vendor/aos/aos.js' %}"></script>
+
+        <!-- Template Main JS File -->
+        <script src="{% static 'assets/js/main.js' %}"></script>
+
+</body>
+<style>
+
+    .upload-section {
+        padding: 120px 0 80px;
+        background: linear-gradient(rgba(var(--color-black-rgb), 0.5), rgba(var(--color-black-rgb), 0.8)),
+            url('../assets/img/gallery-bg.jpg') center center;
+        background-size: cover;
+        background-attachment: fixed;
+        min-height: 100vh;
+    }
+
+    .upload-container {
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 15px;
+        padding: 40px;
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+    }
+
+    .section-header {
+        text-align: center;
+        margin-bottom: 0px;
+    }
+
+    .section-header h3 {
+        font-size: 32px;
+        font-weight: 700;
+        color: #27272f;
+        margin-bottom: 15px;
+    }
+
+    .section-header p {
+        color: #666;
+        font-size: 16px;
+    }
+
+    .upload-form {
+        padding: 0px 20px 20px 20px;
+    }
+
+    .form-wrapper {
+        margin-bottom: 30px;
+    }
+
+    .form-wrapper p {
+        margin-bottom: 20px;
+    }
+
+    .form-wrapper label {
+        font-weight: 600;
+        color: #27272f;
+        margin-bottom: 8px;
+        display: block;
+    }
+
+    .form-wrapper input,
+    .form-wrapper textarea,
+    .form-wrapper select {
+        width: 100%;
+        padding: 12px 15px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+        background: white;
+    }
+
+    .form-wrapper input:focus,
+    .form-wrapper textarea:focus,
+    .form-wrapper select:focus {
+        border-color: #4154f1;
+        box-shadow: 0 0 0 2px rgba(65, 84, 241, 0.1);
+    }
+
+    .btn-submit {
+        background: #4154f1;
+        color: white;
+        padding: 12px 30px;
+        border-radius: 30px;
+        border: none;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+
+    .btn-submit:hover {
+        background: #2e3fbe;
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(65, 84, 241, 0.2);
+    }
+
+    .messages-container {
+        margin-top: 20px;
+    }
+
+    .alert {
+        padding: 15px 20px;
+        border-radius: 8px;
+        margin-bottom: 10px;
+    }
+
+    .alert-info {
+        background-color: #e8f0fe;
+        border: 1px solid #c2d7ff;
+        color: #1967d2;
+    }
+
+    @media (max-width: 768px) {
+        .upload-section {
+            padding: 100px 20px 60px;
+        }
+
+        .upload-container {
+            padding: 20px;
+        }
+    }
+</style>
+
+</html>

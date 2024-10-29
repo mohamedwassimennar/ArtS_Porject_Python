@@ -1,0 +1,88 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Modifier l'Événement Culturel</title>
+    <link href="{% static 'assets/img/favicon.png' %}" rel="icon">
+    <link href="{% static 'assets/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'assets/css/main.css' %}" rel="stylesheet">
+</head>
+
+<body>
+
+    <!-- ======= Header ======= -->
+    <header id="header" class="header d-flex align-items-center fixed-top">
+        <div class="container-fluid d-flex align-items-center justify-content-between">
+            <a href="index.html" class="logo d-flex align-items-center me-auto me-lg-0">
+                <i class="bi bi-camera"></i>
+                <h1>ArtS</h1>
+            </a>
+            <nav id="navbar" class="navbar">
+                <ul>
+                    <li><a href="{% url 'home' %}" class="active">Accueil</a></li>
+                    <li class="dropdown">
+                        <a href="#"><span>Galeries</span> <i class="bi bi-chevron-down dropdown-indicator"></i></a>
+                        <ul>
+                            <li><a href="{% url 'gallery_list' %}">Galeries d'Art</a></li>
+                            <li><a href="{% url 'visit_list' %}">Visites Prévues</a></li>
+                            <li><a href="{% url 'ia2' %}">Analyseur d'Images</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="{% url 'expositions' %}">Expositions</a></li>
+                    <li><a href="{% url 'reservations' %}">Réservations</a></li>
+                    <li><a href="{% url 'liste_catalogues' %}">Catalogues</a></li>
+                    <li><a href="{% url 'liste_avis' %}">Avis</a></li>
+                    <li><a href="{% url 'cultural_event_list' %}">Événements Culturels</a></li>
+                    <li><a href="{% url 'contact' %}">Contact</a></li>
+                    <li><a href="{% url 'upload' %}">Upload art</a></li>
+                    {% if user.is_authenticated %}
+                        <li><a href="{% url 'logout' %}">Logout</a></li>
+                    {% else %}
+                        <li><a href="{% url 'login' %}">Logout</a></li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </div>
+    </header><!-- End Header -->
+
+    <main id="main" class="mt-5 pt-5">
+        <div class="container">
+            <h2>Modifier l'Événement Culturel</h2>
+            <form method="post" action="{% url 'edit_cultural_event' event.id %}">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label for="event_name" class="form-label">Nom de l'Événement</label>
+                    <input type="text" class="form-control" id="event_name" name="event_name" value="{{ event.event_name }}" required>
+                </div>
+                <div class="mb-3">
+                    <label for="description" class="form-label">Description</label>
+                    <textarea class="form-control" id="description" name="description" rows="3" required>{{ event.description }}</textarea>
+                </div>
+                <div class="mb-3">
+                    <label for="start_date" class="form-label">Date de Début</label>
+                    <input type="date" class="form-control" id="start_date" name="start_date" value="{{ event.start_date|date:'Y-m-d' }}" required>
+                </div>
+                <div class="mb-3">
+                    <label for="end_date" class="form-label">Date de Fin</label>
+                    <input type="date" class="form-control" id="end_date" name="end_date" value="{{ event.end_date|date:'Y-m-d' }}" required>
+                </div>
+                <div class="mb-3">
+                    <label for="location" class="form-label">Lieu</label>
+                    <input type="text" class="form-control" id="location" name="location" value="{{ event.location }}" required>
+                </div>
+               
+                <button type="submit" class="btn btn-success btn-sm me-2">Mettre à Jour</button>
+                <a href="{% url 'cultural_event_list' %}" class="btn btn-outline-secondary btn-sm">Annuler</a>
+            </form>
+        </div>
+    </main>
+
+   
+
+    <script src="{% static 'assets/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+</body>
+
+</html>

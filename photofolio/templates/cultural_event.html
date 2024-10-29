@@ -1,0 +1,70 @@
+
+
+
+{% extends "index1.html" %}
+
+
+
+{% block content %}
+    <section id="catalogues" class="catalogues">
+      <section id="hero" class="hero d-flex flex-column justify-content-center align-items-center" data-aos="fade" >
+        <div class="container">
+          <div class="row justify-content-center">
+            <div class="col-lg-6 text-center">
+              <h2>Événement  <span>Culturels</span> </h2>
+             <!--<p>Blanditiis praesentium aliquam illum tempore incidunt debitis dolorem magni est deserunt sed qui libero. Qui voluptas amet.</p> -->
+            </div>
+          </div>
+        </div>
+      </section><!-- End Hero Section -->
+      
+          <div class="container">
+            <div class="row">
+             
+              <table class="table table-striped text-black" style="background-color: rgb(195, 195, 195);">
+                <thead>
+                  <tr>
+                    <th>Nom de l'Événement</th>
+                    <th>Description</th>
+                    <th>Date de Début</th>
+                    <th>Date de Fin</th>
+                    <th>Lieu</th>
+                   <th>Ateliers</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    {% for event in events %}
+                      <tr>
+                        <td>{{ event.event_name }}</td>
+                        <td>{{ event.description }}</td>
+                        <td>{{ event.start_date }}</td>
+                        <td>{{ event.end_date }}</td>
+                        <td>{{ event.location }}</td>
+                       
+                          <td> <!-- Bouton pour voir les ateliers -->
+                            <a href="{% url 'view_workshops' event.id %}" class="btn btn-outline-success btn-sm">Voir les Ateliers</a>
+                          </td>
+                     
+                         
+                     
+                     
+                      </tr>
+                    {% empty %}
+                      <tr>
+                        <td colspan="6">Aucun événement culturel disponible.</td>
+                      </tr>
+                    {% endfor %}
+                  </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Pagination -->
+          <div class="d-flex justify-content-center mt-4">
+            <!-- Ajoutez ici le code pour la pagination si nécessaire -->
+          </div>
+        </div>
+  
+
+      {% endblock %}
+ 

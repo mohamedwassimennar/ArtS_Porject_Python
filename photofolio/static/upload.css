@@ -1,0 +1,37 @@
+body{
+    background-image: url(assets/img/gallery/gallery-3.jpg);
+    height :"100vh";
+    background-size: cover;
+    background-position: center;
+    background-color: gainsboro;
+  }
+
+.exit{
+    position: relative;
+    float: right;
+}
+.text{
+    font-size: larger;
+    font-weight: bolder;
+
+}
+.choose{
+    border-style: dashed;
+    margin-top: 50px;
+
+}
+
+ .container
+ {
+   position: relative;
+   z-index: auto;
+   padding: 45px;
+   background:green;
+   max-width: 350px;
+   text-align: center;
+   margin: auto ;
+   float: center;
+   background-origin: padding-box;
+   border-radius: 10px;
+   
+ }

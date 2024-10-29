@@ -1,0 +1,129 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>Expositions</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <link href="{% static 'assets/img/favicon.png' %}" rel="icon">
+  <link href="{% static 'assets/img/apple-touch-icon.png' %}" rel="apple-touch-icon">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,600;1,700&family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Cardo:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+  <link href="{% static 'assets/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/swiper/swiper-bundle.min.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/glightbox/css/glightbox.min.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/aos/aos.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/css/main.css' %}" rel="stylesheet">
+
+ 
+
+</head>
+
+<body>
+
+  <header id="header" class="header d-flex align-items-center fixed-top">
+    <div class="container-fluid d-flex align-items-center justify-content-between">
+      <a href="{% url 'home' %}" class="logo d-flex align-items-center  me-auto me-lg-0">
+        <i class="bi bi-camera"></i>
+        <h1>ArtS</h1>
+      </a>
+
+      <nav id="navbar" class="navbar">
+        <ul>
+          <li><a href="{% url 'home' %}" class="active">Home</a></li>
+          <li class="dropdown"><a href="#"><span>Galleries</span> <i 
+            class="bi bi-chevron-down dropdown-indicator"></i></a>
+        <ul>
+          <li><a href="{% url 'gallery_list' %}">Art Galleries</a></li> 
+          <li><a href="{% url 'visit_list' %}">Planned Visits</a></li> 
+          <li><a href="{% url 'ia2' %}">Image Analyzer</a></li> 
+
+        </ul>
+      </li>
+          <li><a href="{% url 'expositions' %}">Expositions</a></li>
+          <li><a href="{% url 'reservations' %}">Reservations</a></li>
+
+          <li><a href="{% url 'liste_catalogues' %}">Catalogues</a></li>
+
+          <li><a href="{% url 'liste_avis' %}">Avis</a></li>
+          <li><a href="{% url 'contact' %}">Contact</a></li>
+          <li><a href="{% url 'upload' %}">Upload art</a></li>
+          <!-- <li><a href="http://127.0.0.1:8000/streamlit/ " >Chat</a></li>  -->
+
+          {% if user.is_authenticated %}
+          <li><a href="{% url 'logout' %}">Logout</a></li>
+          {% else %}
+          <li><a href="{% url 'login' %}">Login</a></li>
+          {% endif %}
+        </ul>
+      </nav>
+
+      <div class="header-social-links">
+        <a href="#" class="twitter"><i class="bi bi-twitter"></i></a>
+        <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
+        <a href="#" class="instagram"><i class="bi bi-instagram"></i></a>
+      </div>
+    </div>
+  </header>
+
+  <main id="main" data-aos="fade" style="margin-top: 100px;">
+    <section id="gallery" class="gallery">
+      <div class="container-fluid">
+        <h1 class="text-center mb-4">Expositions</h1>
+        <div class="expositions-container">
+          {% for exposition in expositions %}
+          <div class="exposition-card col-md-3">
+            <h2>{{ exposition.nom }}</h2>
+            <p>{{ exposition.description }}</p>
+            <p><strong>Start Date:</strong> {{ exposition.start_date }}</p>
+            <p><strong>End Date:</strong> {{ exposition.end_date }}</p>
+          </div>
+          {% empty %}
+          <p>No expositions available.</p>
+          {% endfor %}
+        </div>
+      </div>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <div class="iframe-container" id="iframeContainer">
+        <iframe src="http://localhost:8502"></iframe>
+    </div>
+
+    <button class="open-iframe-btn" id="toggleIframe">ChatBot</button>
+    </section>
+
+    <a href="#" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+    <script src="{% static 'assets/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'assets/vendor/swiper/swiper-bundle.min.js' %}"></script>
+    <script src="{% static 'assets/vendor/glightbox/js/glightbox.min.js' %}"></script>
+    <script src="{% static 'assets/vendor/aos/aos.js' %}"></script>
+    <script src="{% static 'assets/vendor/php-email-form/validate.js' %}"></script>
+    <script src="{% static 'assets/js/main.js' %}"></script>
+    <script>
+      document.getElementById('toggleIframe').addEventListener('click', function () {
+          const iframeContainer = document.getElementById('iframeContainer');
+          iframeContainer.style.display = iframeContainer.style.display === 'none' ? 'block' : 'none';
+      });
+  </script>
+</body>
+
+</html>

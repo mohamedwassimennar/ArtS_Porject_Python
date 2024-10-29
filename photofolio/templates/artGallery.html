@@ -1,0 +1,154 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>Art Galleries</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <link href="{% static 'assets/img/favicon.png' %}" rel="icon">
+  <link href="{% static 'assets/img/apple-touch-icon.png' %}" rel="apple-touch-icon">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,600;1,700&family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Cardo:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+  <link href="{% static 'assets/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/swiper/swiper-bundle.min.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/glightbox/css/glightbox.min.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/aos/aos.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/css/main.css' %}" rel="stylesheet">
+
+  <style>
+      .gallery-card {
+          background-color: rgb(186, 186, 186);
+          color: black;
+          border: 1px solid #ddd;
+          border-radius: 8px;
+          padding: 20px;
+          margin: 15px;
+          text-align: center;
+          transition: box-shadow 0.3s ease;
+      }
+
+      .gallery-card:hover {
+          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      }
+
+      .galleries-container {
+          display: flex;
+          flex-wrap: wrap;
+          justify-content: center;
+      }
+
+      .gallery-image {
+          width: 100%; /* Make image responsive */
+          height: auto; /* Maintain aspect ratio */
+          border-radius: 5px; /* Optional: round corners of images */
+      }
+
+      .gallery-image-container {
+          height: 200px; /* Fixed height for image container */
+          overflow: hidden; /* Hide overflow */
+      }
+  </style>
+
+</head>
+
+<body>
+
+  <header id="header" class="header d-flex align-items-center fixed-top">
+    <div class="container-fluid d-flex align-items-center justify-content-between">
+      <a href="{% url 'home' %}" class="logo d-flex align-items-center me-auto me-lg-0">
+        <i class="bi bi-camera"></i>
+        <h1>ArtS</h1>
+      </a>
+
+      <nav id="navbar" class="navbar">
+        <ul>
+          <li><a href="{% url 'home' %}" class="active">Home</a></li>
+          <li><a href="{% url 'about' %}">About</a></li>
+          <li><a href="{% url 'expositions' %}">Expositions</a></li>
+          <li class="dropdown"><a href="#"><span>Galleries</span> <i 
+            class="bi bi-chevron-down dropdown-indicator"></i></a>
+        <ul>
+          <li><a href="{% url 'gallery_list' %}">Art Galleries</a></li> 
+          <li><a href="{% url 'visit_list' %}">Planned Visits</a></li> 
+          <li><a href="{% url 'ia2' %}">Image Analyzer</a></li> 
+
+        </ul>
+      </li>
+          <li><a href="{% url 'contact' %}">Contact</a></li>
+          <li><a href="{% url 'upload' %}">Upload art</a></li>
+
+          {% if user.is_authenticated %}
+          <li><a href="{% url 'logout' %}">Logout</a></li>
+          <li><a href="{% url 'upload' %}">Upload Art</a></li>
+          {% else %}
+          <li><a href="{% url 'login' %}">Login</a></li>
+          {% endif %}
+        </ul>
+      </nav>
+
+      <div class="header-social-links">
+        <a href="#" class="twitter"><i class="bi bi-twitter"></i></a>
+        <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
+        <a href="#" class="instagram"><i class="bi bi-instagram"></i></a>
+      </div>
+    </div>
+  </header>
+
+  <main id="main" data-aos="fade" style="margin-top: 100px;">
+    <section id="gallery" class="gallery">
+      <div class="galleries-container">
+        {% for gallery in galleries %}
+        <div class="gallery-card col-md-4"> <!-- Changez col-md-4 pour trois colonnes -->
+          <div class="gallery-image-container"> <!-- Conteneur pour l'image -->
+            {% if gallery.image %}
+              <img src="{{ gallery.image.url }}" alt="{{ gallery.nom }}" class="gallery-image">
+            {% else %}
+              <p>Aucune image disponible</p>
+            {% endif %}
+          </div>
+          <h2>{{ gallery.nom }}</h2>
+          <p><strong>Address:</strong> {{ gallery.adresse }}</p>
+          <p>{{ gallery.description }}</p>
+          <p><strong>Opening Hours:</strong> {{ gallery.heures_ouverture }}</p>
+          <p><strong>Closing Hours:</strong> {{ gallery.heures_fermeture }}</p>
+          <h5><strong>Exhibitions:</strong></h5>
+          <ul>
+            {% for exposition in gallery.expositions.all %}
+            <li>{{ exposition.nom }}</li>
+            {% empty %}
+            <li>No exhibitions available.</li>
+            {% endfor %}
+          </ul>
+          <a href="{% url 'edit_gallery' gallery.id %}" class="btn btn-warning">Edit</a>
+          <form action="{% url 'delete_gallery' gallery.id %}" method="POST" style="display:inline;">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this gallery?');">Delete</button>
+          </form>
+        </div>
+        {% empty %}
+        <p>No galleries available.</p>
+        {% endfor %}
+      </div>      
+    </section>
+
+    <a href="#" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+    <script src="{% static 'assets/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'assets/vendor/swiper/swiper-bundle.min.js' %}"></script>
+    <script src="{% static 'assets/vendor/glightbox/js/glightbox.min.js' %}"></script>
+    <script src="{% static 'assets/vendor/aos/aos.js' %}"></script>
+    <script src="{% static 'assets/vendor/php-email-form/validate.js' %}"></script>
+    <script src="{% static 'assets/js/main.js' %}"></script>
+
+</body>
+
+</html>

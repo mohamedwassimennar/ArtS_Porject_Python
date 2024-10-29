@@ -1,0 +1,198 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+    <title>Planned Visits</title>
+    <meta content="" name="description">
+    <meta content="" name="keywords">
+
+    <!-- Favicons -->
+    <link href="{% static 'assets/img/favicon.png' %}" rel="icon">
+    <link href="{% static 'assets/img/apple-touch-icon.png' %}" rel="apple-touch-icon">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&family=Cardo:wght@400;700&display=swap" rel="stylesheet">
+
+    <!-- Vendor CSS Files -->
+    <link href="{% static 'assets/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'assets/vendor/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet">
+    <link href="{% static 'assets/vendor/swiper/swiper-bundle.min.css' %}" rel="stylesheet">
+    <link href="{% static 'assets/vendor/glightbox/css/glightbox.min.css' %}" rel="stylesheet">
+    <link href="{% static 'assets/vendor/aos/aos.css' %}" rel="stylesheet">
+
+    <!-- Template Main CSS File -->
+    <link href="{% static 'assets/css/main.css' %}" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Open Sans', sans-serif;
+            padding: 20px;
+        }
+
+        main {
+            padding-top: 70px; /* Adjust if necessary */
+        }
+
+        .visits-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px; /* Space between cards */
+        }
+
+        .visit-card {
+            flex: 1 1 calc(30% - 20px); /* Réduit la largeur des cartes à 30% */
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            padding: 10px; /* Réduit le padding interne */
+            cursor: pointer; /* Indique que c'est cliquable */
+            transition: transform 0.3s;
+            margin: 10px; /* Ajoute une marge autour de chaque carte */
+        }
+
+
+
+        .visit-card:hover {
+            transform: scale(1.02); /* Hover effect */
+        }
+
+        .gallery-image {
+            width: 100%; /* Image takes full card width */
+            height: 300px; /* Fixed height for uniformity */
+            object-fit: cover; /* Maintain aspect ratio */
+            border-radius: 8px; /* Rounded corners */
+        }
+
+        .gallery-details {
+            display: none; /* Hide details by default */
+            margin-top: 15px; /* Space above details */
+        }
+
+        .page-title {
+            font-size: 2rem;  /* Adjust font size as needed */
+            margin: 20px 0 20px;  /* Space above and below the title */
+            text-align: center;  /* Center the title */
+            color: white;  /* Change text color to white */
+            padding-top: 20px; /* Ajout d'un espace en haut */
+            background-color: rgba(0, 0, 0, 0.7); /* Optionnel : ajouter un fond semi-transparent pour le contraste */
+            border-radius: 8px; /* Optionnel : arrondir les coins */
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <!-- ======= Header ======= -->
+    <header id="header" class="header d-flex align-items-center fixed-top">
+        <div class="container-fluid d-flex align-items-center justify-content-between">
+            <a href="{% url 'home' %}" class="logo d-flex align-items-center me-auto me-lg-0">
+                <i class="bi bi-camera"></i>
+                <h1>PhotoFolio</h1>
+            </a>
+
+            <nav id="navbar" class="navbar">
+                <ul>
+                    <li><a href="{% url 'home' %}">Home</a></li>
+                    <li class="dropdown">
+                        <a href="#"><span>Galleries</span> <i class="bi bi-chevron-down dropdown-indicator"></i></a>
+                        <ul>
+                            <li><a href="{% url 'gallery_list' %}">Art Galleries</a></li> 
+                            <li><a href="{% url 'visit_list' %}">Planned Visits</a></li> 
+                            <li><a href="{% url 'ia2' %}">Image Analyzer</a></li> 
+
+                        </ul>
+                    </li>
+                    <li><a href="{% url 'expositions' %}">Expositions</a></li>
+                    <li><a href="{% url 'reservations' %}">Reservations</a></li>
+                    <li><a href="{% url 'liste_catalogues' %}">Catalogues</a></li>
+
+                              <li><a href="{% url 'liste_avis' %}">Avis</a></li>
+                    <li><a href="{% url 'contact' %}">Contact</a></li>
+                    {% if user.is_authenticated %}
+                    <li><a href="{% url 'logout' %}">déconnexion</a></li>
+                    {% else %}
+                    <li><a href="{% url 'login' %}">Login</a></li>
+                    {% endif %}
+                </ul>
+            </nav><!-- .navbar -->
+
+            <div class="header-social-links">
+                <a href="#" class="twitter"><i class="bi bi-twitter"></i></a>
+                <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
+                <a href="#" class="instagram"><i class="bi bi-instagram"></i></a>
+                <a href="#" class="linkedin"><i class="bi bi-linkedin"></i></a>
+            </div>
+            <i class="mobile-nav-toggle mobile-nav-show bi bi-list"></i>
+            <i class="mobile-nav-toggle mobile-nav-hide d-none bi bi-x"></i>
+        </div>
+    </header><!-- End Header -->
+
+    <main>
+        <h1 class="page-title">Planned Visits</h1>
+        <div class="visits-container">
+            {% for visit in visits %}
+            <div class="visit-card" onclick="toggleDetails(this)">
+                <h2>{{ visit.nom }}</h2>
+                <img src="{{ visit.image.url }}" alt="{{ visit.nom }}" class="gallery-image" onerror="this.onerror=null; this.src='{% static 'assets/img/3.png' %}'">
+                
+                <!-- Hide details by default -->
+                <div class="gallery-details">
+                    <p><strong>Visit Date:</strong> {{ visit.date_visite }}</p>
+                    <p><strong>Estimated Duration:</strong> {{ visit.duree_estimee }} hours</p>
+                    <p><strong>Status:</strong> {{ visit.get_statut_visite_display }}</p>
+                    
+                    <h5><strong>Galleries to Visit:</strong></h5>
+                    {% if visit.galleries_a_visiter.all %}
+                        <ul>
+                            {% for gallery in visit.galleries_a_visiter.all %}
+                                <li>{{ gallery.nom }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        <p>No galleries selected.</p>
+                    {% endif %}
+                </div>
+            </div>
+            {% empty %}
+            <p>No planned visits.</p>
+            {% endfor %}
+        </div>
+    </main>
+    
+    
+    
+    <a href="#" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+    <div id="preloader">
+        <div class="line"></div>
+    </div>
+
+    <!-- Vendor JS Files -->
+    <script src="{% static 'assets/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'assets/vendor/glightbox/js/glightbox.min.js' %}"></script>
+    <script src="{% static 'assets/vendor/aos/aos.js' %}"></script>
+    <script src="{% static 'assets/js/main.js' %}"></script>
+
+    <script>
+        function toggleDetails(element) {
+            const details = element.querySelector('.gallery-details');
+            if (details.style.display === "none" || details.style.display === "") {
+                details.style.display = "block";
+            } else {
+                details.style.display = "none";
+            }
+        }
+    </script>
+</body>
+
+</html>

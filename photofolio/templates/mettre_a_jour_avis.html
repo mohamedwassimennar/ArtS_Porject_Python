@@ -1,0 +1,217 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+    <title>Mettre à jour l'Avis</title>
+    <meta content="" name="description">
+    <meta content="" name="keywords">
+
+    <!-- Favicons -->
+    <link href="{% static 'assets/img/favicon.png' %}" rel="icon">
+    <link href="{% static 'assets/img/apple-touch-icon.png' %}" rel="apple-touch-icon">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Vendor CSS Files -->
+    <link href="{% static 'assets/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'assets/vendor/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet">
+    <link href="{% static 'assets/vendor/swiper/swiper-bundle.min.css' %}" rel="stylesheet">
+    <link href="{% static 'assets/vendor/glightbox/css/glightbox.min.css' %}" rel="stylesheet">
+    <link href="{% static 'assets/vendor/aos/aos.css' %}" rel="stylesheet">
+
+    <!-- Template Main CSS File -->
+    <link href="{% static 'assets/css/main.css' %}" rel="stylesheet">
+    
+    <style>
+        /* Style pour la carte du formulaire */
+        .card {
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 15px; 
+            max-width: 500px; 
+            margin: auto;
+            font-size: 17px;
+        }
+
+        /* Alignement et style pour les labels et champs */
+        .contact .form-label {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .avis-form input, .avis-form select, .avis-form textarea {
+            width: 100%;
+            padding: 6px;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            font-size: 0.9rem;
+        }
+
+        /* Style pour les boutons */
+        .avis-form .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+            font-size: 0.8rem;
+            padding: 6px 12px;
+        }
+
+        .avis-form .btn-primary:hover {
+            background-color: #0056b3;
+        }
+
+        .avis-form .btn-outline-secondary {
+            border-color: #6c757d;
+            color: #333;
+            font-size: 0.8rem;
+            padding: 6px 12px;
+        }
+
+        .avis-form .btn-outline-secondary:hover {
+            background-color: #6c757d;
+            color: #333;
+        }
+    </style>    
+
+</head>
+
+<body>
+
+    <!-- ======= Header ======= -->
+    <header id="header" class="header d-flex align-items-center fixed-top">
+        <div class="container-fluid d-flex align-items-center justify-content-between">
+
+            <a href="index.html" class="logo d-flex align-items-center me-auto me-lg-0">
+                <i class="bi bi-camera"></i>
+                <h1>ArtS</h1>
+            </a>
+
+            <nav id="navbar" class="navbar">
+                <ul>
+                    <li><a href="{% url 'home' %}" class="active">Home</a></li>
+                    <li class="dropdown"><a href="#"><span>Galleries</span> <i 
+                        class="bi bi-chevron-down dropdown-indicator"></i></a>
+                    <ul>
+                      <li><a href="{% url 'gallery_list' %}">Art Galleries</a></li> 
+                      <li><a href="{% url 'visit_list' %}">Planned Visits</a></li> 
+                      <li><a href="{% url 'ia2' %}">Image Analyzer</a></li> 
+
+                    </ul>
+                  </li>
+                    <li><a href="{% url 'expositions' %}">Expositions</a></li>
+                    <li><a href="{% url 'reservations' %}">Reservations</a></li>
+                             <li><a href="{% url 'liste_catalogues' %}">Catalogues</a></li>
+
+                                        <li><a href="{% url 'liste_avis' %}">Avis</a></li>
+
+                    <li><a href="{% url 'contact' %}">Contact</a></li>
+                    {% if user.is_authenticated and user.is_admin %}
+                    <li><a href="{% url 'logout' %}">Logout</a></li>
+                    {% elif user.is_authenticated %}
+                    <li><a href="{% url 'logout' %}">Logout</a></li>
+                    {% else %}
+                    <li><a href="{% url 'login' %}">Login</a></li>
+                    {% endif %}
+                </ul>
+
+            </nav><!-- .navbar -->
+
+            <div class="header-social-links">
+                <a href="#" class="twitter"><i class="bi bi-twitter"></i></a>
+                <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
+                <a href="#" class="instagram"><i class="bi bi-instagram"></i></a>
+                <a href="#" class="linkedin"><i class="bi bi-linkedin"></i></a>
+            </div>
+            <i class="mobile-nav-toggle mobile-nav-show bi bi-list"></i>
+            <i class="mobile-nav-toggle mobile-nav-hide d-none bi bi-x"></i>
+
+        </div>
+    </header><!-- End Header -->
+<main id="main" data-aos="fade" data-aos-delay="1500">
+    <!-- ======= Page Header ======= -->
+    <div class="page-header d-flex align-items-center">
+        <div class="container position-relative">
+            <div class="row d-flex justify-content-center">
+                <div class="col-lg-6 text-center">
+                    <h1>Update Reviews</h1>
+                </div>
+            </div>
+        </div>
+    </div><!-- End Page Header -->
+
+    <!-- ======= Contact Section ======= -->
+    <section id="contact" class="contact">
+        <div class="container">
+            <div class="row gy-4 justify-content-center">
+                <div class="col-lg-8">
+                    <div class="card border-0 shadow-sm p-4">
+                        <form method="post" class="avis-form">
+                            {% csrf_token %}
+                            
+                            <!-- Champ pour le contenu de l'avis -->
+                            <div class="mb-3">
+                                <label for="contenu" class="form-label">Content of the Review</label>
+                                <textarea id="contenu" name="contenu" class="form-control" rows="4" required>{{ form.instance.contenu }}</textarea>
+                            </div>
+
+                            <!-- Champ pour la note de l'avis -->
+                            <div class="mb-3">
+                                <label for="note" class="form-label">Note</label>
+                                <input type="number" id="note" name="note" class="form-control" min="1" max="5" required value="{{ form.instance.note }}">
+                            </div>
+
+                            <!-- Champ pour le type d'avis -->
+<div class="mb-3">
+                                <label for="type_avis" class="form-label">Type of Review</label>
+                                {{ form.type_avis }}  <!-- Champ pour le type d'avis -->
+                            </div>
+
+                            <div class="text-center mt-4">
+                                <button type="submit" class="btn btn-success btn-sm me-2">
+                                    Update Review
+                                </button>
+                                <a href="{% url 'liste_avis' %}" class="btn btn-outline-secondary btn-sm">
+                                   Back to list
+                                </a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section><!-- End Contact Section -->
+</main><!-- End #main -->
+<br>
+<br>
+<br>
+
+
+
+    <a href="#" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+    <div id="preloader">
+        <div class="line"></div>
+    </div>
+
+    <!-- Vendor JS Files -->
+    <script src="{% static 'assets/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'assets/vendor/swiper/swiper-bundle.min.js' %}"></script>
+    <script src="{% static 'assets/vendor/glightbox/js/glightbox.min.js' %}"></script>
+    <script src="{% static 'assets/vendor/aos/aos.js' %}"></script>
+    <script src="{% static 'assets/vendor/php-email-form/validate.js' %}"></script>
+
+    <!-- Template Main JS File -->
+    <script src="{% static 'assets/js/main.js' %}"></script>
+
+</body>
+
+</html>

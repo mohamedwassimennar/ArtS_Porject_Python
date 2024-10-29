@@ -1,0 +1,42 @@
+
+{% extends "index1.html" %}
+
+
+{% block content %}
+
+ 
+    <section id="hero" class="hero d-flex flex-column justify-content-center align-items-center" data-aos="fade" >
+        <div class="container">
+          <div class="row justify-content-center">
+            <div class="col-lg-6 text-center">
+                <h2>Détails de l' <span>Événement</span></h2>
+
+             <!--<p>Blanditiis praesentium aliquam illum tempore incidunt debitis dolorem magni est deserunt sed qui libero. Qui voluptas amet.</p> -->
+            </div>
+          </div>
+        </div>
+      </section><!-- End Hero Section -->
+    <section id="event-details" class="event-details">
+        <div class="container">
+            <h3>{{ event.event_name }}</h3>
+            <p><strong>Description :</strong> {{ event.description }}</p>
+            <p><strong>Date :</strong> {{ event.start_date }} à {{ event.end_date }}</p>
+            <p><strong>Lieu :</strong> {{ event.location }}</p>
+
+            <h3>Recommandations de Restaurants</h3>
+            <div class="recommendations" id="recommendations">
+                {% if recommendations %}
+                    <p>{{ recommendations }}</p>
+                {% else %}
+                    <p>Aucune recommandation disponible.</p>
+                {% endif %}
+            </div>
+
+            <form method="POST" action="{% url 'generate_recommendations' event.id %}">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-primary">Obtenir des recommandations</button>
+            </form>
+        </div>
+    </section>
+
+{% endblock %}

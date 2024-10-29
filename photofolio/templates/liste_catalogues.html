@@ -1,0 +1,269 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>Artist </title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <!-- Favicons -->
+  <link href="assets/img/favicon.png'%}" rel="icon">
+  <link href="assets/img/apple-touch-icon.png'%}" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,600;1,700&family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Cardo:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="{% static 'assets/vendor/bootstrap/css/bootstrap.min.css'%}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/bootstrap-icons/bootstrap-icons.css'%}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/swiper/swiper-bundle.min.css'%}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/glightbox/css/glightbox.min.css'%}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/aos/aos.css'%}" rel="stylesheet">
+
+  <!-- Template Main CSS File -->
+  <link href="{% static 'assets/css/main.css'%}" rel="stylesheet">
+
+<style>
+.card {
+    border-radius: 8px; 
+    background-color: #fff; 
+    transition: box-shadow 0.3s; 
+}
+
+.card:hover {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); 
+}
+
+.card-title {
+    font-weight: bold; 
+    font-size: 1.25rem; 
+    color: #333;
+}
+
+.card-text {
+    font-size: 17px;
+}
+
+.text-gray {
+    color: #6c757d; 
+
+}
+
+.btn-warning, .btn-primary {
+    transition: background-color 0.3s, transform 0.2s; 
+}
+
+.btn-warning:hover, .btn-primary:hover {
+    transform: scale(1.05); 
+}
+.custom-input {
+    width: 200px;
+    padding: 5px; 
+}
+
+.custom-button {
+    height: 38px; 
+}
+.custom-input {
+    border: 2px solid #007bff; /* Bordure bleue */
+    border-radius: 4px; /* Coins arrondis */
+    transition: border-color 0.3s ease; /* Transition pour le changement de couleur */
+}
+
+.custom-input:focus {
+    border-color: #0056b3; /* Couleur de la bordure au focus */
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Ombre légère */
+}
+
+.custom-button {
+    background-color: #007bff; /* Couleur de fond bleue */
+    border: none; /* Pas de bordure */
+    border-radius: 4px; /* Coins arrondis */
+    transition: background-color 0.3s ease; /* Transition pour le changement de couleur */
+}
+
+.custom-button:hover {
+    background-color: #0056b3; /* Couleur au survol */
+}
+
+.btn-outline-success {
+    border-color: #00cc99; 
+    color: #00cc99; 
+}
+
+</style>
+
+</head>
+
+<body>
+
+  <!-- ======= Header ======= -->
+ <header id="header" class="header d-flex align-items-center fixed-top">
+    <div class="container-fluid d-flex align-items-center justify-content-between">
+
+     <a href="ia" class="logo d-flex align-items-center me-auto me-lg-0">
+    
+    <i class="bi bi-camera"></i>
+    <h1>ArtS</h1>
+</a>
+
+
+      <nav id="navbar" class="navbar">
+        <ul>
+          <li><a href="{% url 'home' %}" class="active">Home</a></li>
+        <li class="dropdown"><a href="#"><span>Galleries</span> <i 
+                        class="bi bi-chevron-down dropdown-indicator"></i></a>
+                    <ul>
+                      <li><a href="{% url 'gallery_list' %}">Art Galleries</a></li> 
+                      <li><a href="{% url 'visit_list' %}">Planned Visits</a></li> 
+                      <li><a href="{% url 'ia2' %}">Image Analyzer</a></li> 
+
+                    </ul>
+                  </li>
+                    <li><a href="{% url 'expositions' %}">Expositions</a></li>
+                    <li><a href="{% url 'reservations' %}">Reservations</a></li>
+          <li><a href="{% url 'liste_catalogues' %}">Catalogues</a></li>
+           <li><a href="{% url 'liste_avis' %}">Avis</a></li>
+           <li><a href="{% url 'cultural_event_list' %}">Événements Culturels</a></li>
+          <li><a href="{% url 'contact' %}">Contact</a></li>
+          <li><a href="{% url 'upload' %}">Upload art</a></li>
+          {% if user.is_authenticated and user.is_admin %}
+          <li><a href="{% url 'logout' %}">Logout</a></li>
+          {% elif user.is_authenticated %}
+          <li><a href="{% url 'logout' %}">Logout</a></li>
+          {% else %}
+          <li><a href="{% url 'login' %}">login</a></li>
+          {% endif %}
+        </ul>
+
+      </nav><!-- .navbar -->
+
+      <div class="header-social-links">
+        <a href="#" class="twitter"><i class="bi bi-twitter"></i></a>
+        <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
+        <a href="#" class="instagram"><i class="bi bi-instagram"></i></a>
+        <a href="#" class="linkedin"><i class="bi bi-linkedin"></i></i></a>
+      </div>
+      <i class="mobile-nav-toggle mobile-nav-show bi bi-list"></i>
+      <i class="mobile-nav-toggle mobile-nav-hide d-none bi bi-x"></i>
+
+    </div>
+  </header><!-- End Header -->
+
+  <main id="main" data-aos="fade" data-aos-delay="1500">
+    <div class="page-header d-flex align-items-center">
+      <div class="container position-relative">
+        <div class="row d-flex justify-content-center">
+          <div class="col-lg-6 text-center">
+            <h2>List of Catalogs</h2>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <section id="catalogues" class="catalogues">
+      <div class="container-fluid">
+    <form method="get" class="mb-4">
+    <div class="input-group">
+        <input type="text" name="search" value="{{ query }}" placeholder="Search by catalog title" class="form-control custom-input" aria-label="Search by catalog title">
+        <button type="submit" class="btn btn-primary custom-button">Search</button>
+    </div>
+    <div class="text-center mt-3">
+        <a href="{% url 'creer_catalogue' %}" class="btn btn-outline-success btn-sm">Create a catalog</a>
+    </div>
+</form>
+<div class="row gy-4 justify-content-center">
+    <div class="col-lg-8">
+        <div class="row">
+            {% for catalogue in catalogues %}
+            <div class="col-md-4">
+                <div class="card mb-4 shadow-sm">
+                    <div class="card-body">
+                        <p class="card-text text-gray">
+                            <strong>Title :</strong> {{ catalogue.titre }}<br>
+                            <strong>Description :</strong> {{ catalogue.description }}<br>
+                            <strong>Catalog Type :</strong> 
+                            {% if catalogue.type_catalogue %}
+                                {{ catalogue.type_catalogue }}  
+                            {% else %}
+                                Non spécifié
+                            {% endif %}
+                        </p>
+                        <div class="d-flex justify-content-between align-items-center">
+<a href="{% url 'modifier_catalogue' catalogue.id %}" class="btn btn-success">Update</a>
+   <a href="{% url 'supprimer_catalogue' catalogue.id %}" class="btn btn-primary" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce catalogue ?');">Delete</a>
+
+                                    </div>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12">
+                <div class="alert alert-info text-center" role="alert">No catalog found.</div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+        <!-- Pagination -->
+        <div class="d-flex justify-content-center mt-4">
+          <nav>
+            <ul class="pagination">
+              {% if catalogues.has_previous %}
+              <li class="page-item">
+                <a class="page-link" href="?page=1&search={{ query }}">First</a>
+              </li>
+              <li class="page-item">
+                <a class="page-link" href="?page={{ catalogues.previous_page_number }}&search={{ query }}">Previous</a>
+              </li>
+              {% endif %}
+
+              <li class="page-item disabled">
+                <span class="page-link">Page {{ catalogues.number }} sur {{ catalogues.paginator.num_pages }}</span>
+              </li>
+
+              {% if catalogues.has_next %}
+              <li class="page-item">
+                <a class="page-link" href="?page={{ catalogues.next_page_number }}&search={{ query }}">Next</a>
+              </li>
+              <li class="page-item">
+                <a class="page-link" href="?page={{ catalogues.paginator.num_pages }}&search={{ query }}">Last</a>
+              </li>
+              {% endif %}
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <a href="#" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+  <div id="preloader">
+    <div class="line"></div>
+  </div>
+
+  <!-- Vendor JS Files -->
+  <script src="{% static 'assets/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+  <script src="{% static 'assets/vendor/swiper/swiper-bundle.min.js' %}"></script>
+  <script src="{% static 'assets/vendor/glightbox/js/glightbox.min.js' %}"></script>
+  <script src="{% static 'assets/vendor/aos/aos.js' %}"></script>
+  <script src="{% static 'assets/vendor/php-email-form/validate.js' %}"></script>
+<script>
+        document.getElementById('redirectButton').addEventListener('click', function() {
+            window.location.href = ' http://localhost:8503';
+        });
+    </script>
+
+  <!-- Template Main JS File -->
+  <script src="{% static 'assets/js/main.js' %}"></script>
+
+</body>
+
+</html>

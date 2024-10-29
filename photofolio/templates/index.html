@@ -1,0 +1,281 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>Artist</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <!-- Favicons -->
+  <link href="{% static 'assets/img/favicon.png'%}" rel="icon">
+  <link href="{% static 'assets/img/apple-touch-icon.png'%}" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,600;1,700&family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Cardo:ital,wght@0,400;0,700;1,400&display=swap"
+    rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="{% static 'assets/vendor/bootstrap/css/bootstrap.min.css'%}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/bootstrap-icons/bootstrap-icons.css'%}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/swiper/swiper-bundle.min.css'%}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/glightbox/css/glightbox.min.css'%}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/aos/aos.css'%}" rel="stylesheet">
+
+  <!-- Template Main CSS File -->
+  <link href="{% static 'assets/css/main.css'%}" rel="stylesheet">
+
+</head>
+
+<body>
+
+  <!-- ======= Header ======= -->
+  <header id="header" class="header d-flex align-items-center fixed-top">
+    <div class="container-fluid d-flex align-items-center justify-content-between">
+
+      <a href="ia" class="logo d-flex align-items-center me-auto me-lg-0">
+
+        <i class="bi bi-camera"></i>
+        <h1>ArtS</h1>
+      </a>
+
+
+      <nav id="navbar" class="navbar">
+        <ul>
+          <li><a href="{% url 'home' %}" class="active">Home</a></li>
+
+          <li><a href="{% url 'liste_catalogues' %}">Catalogues</a></li>
+
+          <li><a href="{% url 'liste_avis' %}">Avis</a></li>
+
+          <li class="dropdown"><a href="#"><span>Galleries</span> <i
+                class="bi bi-chevron-down dropdown-indicator"></i></a>
+            <ul>
+              <li><a href="{% url 'gallery_list' %}">Art Galleries</a></li>
+              <li><a href="{% url 'visit_list' %}">Planned Visits</a></li>
+              <li><a href="{% url 'ia2' %}">Image Analyzer</a></li>
+
+            </ul>
+          </li>
+          <li><a href="{% url 'expositions' %}">Expositions</a></li>
+          <li><a href="{% url 'reservations' %}">Reservations</a></li>
+          <li><a href="{% url 'cultural_event_list' %}">Événements Culturels</a></li>
+          <li><a href="{% url 'contact' %}">Contact</a></li>
+          <li><a href="{% url 'upload' %}">Upload art</a></li>
+          {% if user.is_authenticated and user.is_admin %}
+          <li><a href="{% url 'logout' %}">Logout</a></li>
+          {% elif user.is_authenticated %}
+          <li><a href="{% url 'logout' %}">Logout</a></li>
+          {% else %}
+          <li><a href="{% url 'login' %}">login</a></li>
+          {% endif %}
+        </ul>
+
+      </nav><!-- .navbar -->
+
+      <div class="header-social-links">
+        <a href="#" class="twitter"><i class="bi bi-twitter"></i></a>
+        <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
+        <a href="#" class="instagram"><i class="bi bi-instagram"></i></a>
+        <a href="#" class="linkedin"><i class="bi bi-linkedin"></i></a>
+      </div>
+      <i class="mobile-nav-toggle mobile-nav-show bi bi-list"></i>
+      <i class="mobile-nav-toggle mobile-nav-hide d-none bi bi-x"></i>
+
+    </div>
+  </header><!-- End Header -->
+
+  <!-- ======= Hero Section ======= -->
+  <section id="hero" class="hero d-flex flex-column justify-content-center align-items-center" data-aos="fade"
+    data-aos-delay="1500">
+    <div class="container" id="suggestion-container">
+      <div class="row justify-content-center">
+        <div class="col-lg-12 text-center">
+          <div class="suggestion-container text-center mt-4">
+            <button id="suggestButton" class="btn btn-primary">Suggest Me Something</button>
+            <p id="suggestionText" class="mt-3"></p>
+            <div id="suggestedImages" class="d-flex flex-wrap justify-content-center mt-3"></div>
+            <!-- Container for suggested images -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </section><!-- End Hero Section -->
+
+
+
+  <main id="main" data-aos="fade" data-aos-delay="1500">
+
+    <!-- ======= Gallery Section ======= -->
+    <section id="gallery" class="gallery">
+      <div class="container-fluid">
+
+        <div class="row gy-4 justify-content-center">
+          {% if images %}
+          {% for instance in images %}
+          <div class="col-xl-3 col-lg-4 col-md-6">
+            <div class="gallery-item h-100">
+              <img src="{{ instance.art_image.url }}" class="img-fluid" alt="">
+              <div class="gallery-links d-flex align-items-center justify-content-center">
+                <a href="#" data-bs-toggle="modal" data-bs-target="#imageModal-{{ instance.id }}"
+                  title="{{ instance.type }}" class="preview-link">
+                  <i class="bi bi-arrows-angle-expand"></i> More Infos
+                </a>
+              </div>
+            </div>
+          </div><!-- End Gallery Item -->
+          {% endfor %}
+          {% else %}
+          <center>
+            <h2>There are No images Available</h2>
+          </center>
+          {% endif %}
+        </div>
+    </section><!-- End Gallery Section -->
+
+  </main><!-- End #main -->
+
+  <!-- Modal Structure -->
+  {% for instance in images %}
+  <div class="modal fade" id="imageModal-{{ instance.id }}" tabindex="-1"
+    aria-labelledby="imageModalLabel-{{ instance.id }}" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg text-black">
+      <div class="modal-content rounded shadow" style="background-color: whitesmoke;">
+        <div class="modal-header border-0">
+          <h5 class="modal-title" id="imageModalLabel-{{ instance.id }}">{{ instance.name }}</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-md-6">
+              <img src="{{ instance.art_image.url }}" class="img-fluid rounded shadow" alt="{{ instance.name }}">
+            </div>
+            <div class="col-md-6">
+              <p class="artist-name"><strong>{{ instance.artist.name }}</strong></p>
+              <p class="font-weight-normal"><strong>{{ instance.type }}</strong></p>
+              <p class="mt-3 description">{{ instance.description|truncatewords:50 }}</p>
+              <a href="{% url 'art_gallery_detail' instance.id %}" class="btn btn-primary mt-3"><i
+                  class="bi bi-link-45deg">Read More</i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+
+
+  <script>
+    document.getElementById("suggestButton").addEventListener("click", function () {
+      fetch("{% url 'suggest_art' %}")
+        .then(response => response.json())
+        .then(data => {
+
+          document.getElementById("suggestionText").innerHTML = '';
+          document.getElementById("suggestedImages").innerHTML = '';
+
+
+          if (typeof data.suggestions === 'string') {
+            document.getElementById("suggestion-container").classList.add("suggestion-container-active");
+
+            const suggestionsArray = data.suggestions.split('\n').filter(suggestion => suggestion.trim() !== '');
+
+
+            const formattedSuggestions = suggestionsArray.map((suggestion, index) => {
+
+              const boldSuggestion = suggestion.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+
+
+              const paintingNameMatch = boldSuggestion.match(/<strong>(.*?)<\/strong>/);
+              if (paintingNameMatch) {
+                const paintingName = paintingNameMatch[1];
+
+                //const googleSearchLink = `https://www.google.com/search?q=${encodeURIComponent(paintingName)}`;
+                const googleImageSearchLink = `https://www.google.com/search?hl=en&tbm=isch&q=${encodeURIComponent(paintingName)}`;
+
+                return `${boldSuggestion} <a href="${googleImageSearchLink}" target="_blank">(Search Images on Google)</a>`;
+              }
+              return boldSuggestion;
+            }).join('<br>');
+
+            document.getElementById("suggestionText").innerHTML = `<h4>${formattedSuggestions}</h4>`;
+          } else {
+            console.error("Suggestion is not a string:", data.suggestions);
+          }
+
+        })
+        .catch(error => console.error("Error fetching suggestions:", error));
+    });
+
+  </script>
+
+
+  <style>
+    .modal-content {
+      background-color: #f8f9fa;
+    }
+
+    .btn-primary {
+      background-color: #007bff;
+      border: none;
+    }
+
+    .btn-primary:hover {
+      background-color: #0056b3;
+    }
+
+    .suggestion-container {
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .suggestion-container h4 {
+      font-weight: 600;
+      color: #333;
+    }
+
+    #suggestedImages img {
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    #suggestedImages img:hover {
+      transform: scale(1.05);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    }
+
+    #hero {
+      background: transparent;
+      transition: background 0.3s ease;
+    }
+
+    .suggestion-container-active {
+      border: 1px solid #ccc;
+      background: #F5F5F5;
+    }
+  </style>
+
+  <!-- Vendor JS Files -->
+  <script src="{% static 'assets/vendor/bootstrap/js/bootstrap.bundle.min.js'%}"></script>
+  <script src="{% static 'assets/vendor/aos/aos.js'%}"></script>
+  <script src="{% static 'assets/vendor/swiper/swiper-bundle.min.js'%}"></script>
+  <script src="{% static 'assets/vendor/glightbox/js/glightbox.min.js'%}"></script>
+  <script src="{% static 'assets/vendor/aos/aos.js'%}"></script>
+  <script src="{% static 'assets/vendor/php-email-form/validate.js'%}"></script>
+  <script>
+    document.getElementById('redirectButton').addEventListener('click', function () {
+      window.location.href = ' http://localhost:8503';
+    });
+  </script>
+
+  <!-- Template Main JS File -->
+  <script src="{% static 'assets/js/main.js'%}"></script>
+</body>
+
+</html>

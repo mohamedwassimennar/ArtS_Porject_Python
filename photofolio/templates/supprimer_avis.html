@@ -1,0 +1,7 @@
+<h1>Supprimer l'Avis</h1>
+<p>Êtes-vous sûr de vouloir supprimer cet avis : "{{ avis }}" ?</p>
+<form method="post">
+    {% csrf_token %}
+    <button type="submit">Supprimer</button>
+</form>
+<a href="{% url 'liste_avis' %}">Retour à la liste</a>
